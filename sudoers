@@ -1,0 +1,74 @@
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+
+# This file is part of Web Hosting FE Light.
+#
+# Web Hosting FE Light is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# Web Hosting FE Light is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Web Hosting FE Light.  If not, see <https://www.gnu.org/licenses/>.
+
+Defaults	env_reset
+Defaults	mail_badpass
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+Cmnd_Alias CREATERECORDS = /core/bind/lib/createrecords.sh
+Cmnd_Alias CREATEZONE = /core/bind/lib/createzone.sh
+Cmnd_Alias DELETERECORDS = /core/bind/lib/deleterecords.sh
+Cmnd_Alias DELETEZONE = /core/bind/lib/deletezone.sh
+
+Cmnd_Alias CERTBOTCREATE = /core/certbot/lib/create.sh
+Cmnd_Alias CERTBOTDELETE = /core/certbot/lib/delete.sh
+Cmnd_Alias CERTBOTRENEW = /core/certbot/lib/renew.sh
+
+Cmnd_Alias MYSQLCREATE = /core/mysql/lib/create.sh
+Cmnd_Alias MYSQLDELETE = /core/mysql/lib/delete.sh
+Cmnd_Alias MYSQLSET = /core/mysql/lib/set.sh
+
+Cmnd_Alias SFTPCREATE = /core/sftp/lib/create.sh
+Cmnd_Alias SFTPDELETE = /core/sftp/lib/delete.sh
+Cmnd_Alias SFTPSET = /core/sftp/lib/set.sh
+
+# User privilege specification
+root	ALL=(ALL:ALL) ALL
+www-data ALL=(ALL) NOPASSWD: CREATERECORDS
+www-data ALL=(ALL) NOPASSWD: CREATEZONE
+www-data ALL=(ALL) NOPASSWD: DELETERECORDS
+www-data ALL=(ALL) NOPASSWD: DELETEZONE
+
+www-data ALL=(ALL) NOPASSWD: CERTBOTCREATE
+www-data ALL=(ALL) NOPASSWD: CERTBOTDELETE
+www-data ALL=(ALL) NOPASSWD: CERTBOTRENEW
+
+www-data ALL=(ALL) NOPASSWD: MYSQLCREATE
+www-data ALL=(ALL) NOPASSWD: MYSQLDELETE
+www-data ALL=(ALL) NOPASSWD: MYSQLSET
+
+www-data ALL=(ALL) NOPASSWD: SFTPCREATE
+www-data ALL=(ALL) NOPASSWD: SFTPDELETE
+www-data ALL=(ALL) NOPASSWD: SFTPSET
+# Allow members of group sudo to execute any command
+%sudo	ALL=(ALL:ALL) ALL
+
+# See sudoers(5) for more information on "#include" directives:
+
+#includedir /etc/sudoers.d
