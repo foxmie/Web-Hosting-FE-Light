@@ -138,8 +138,8 @@
 																					<input type="hidden" name="id" value="<?= $rowBindrecord[$i]['id'] ?>" readonly />
 																					<input type="hidden" name="record" value="<?= $rowBindrecord[$i]['record'] ?>" readonly />
 																					<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-																					<button type="submit" class="btn btn-danger">Supprimer</button>
-																					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+																					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+																					<button type="submit" class="btn btn-primary">Supprimer</button>
 																				</div>
 																			</form>
 																		</div>
@@ -263,8 +263,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="A" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -331,8 +331,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="AAAA" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -419,8 +419,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="NS" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -507,8 +507,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="CNAME" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -533,8 +533,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="CAA" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -601,8 +601,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="TXT" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -627,8 +627,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="NAPTR" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -742,8 +742,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="SRV" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -768,8 +768,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="LOC" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -794,8 +794,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="SSHPF" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -820,8 +820,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="TLSA" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -917,8 +917,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="MX" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -1059,8 +1059,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="SPF" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -1085,8 +1085,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="DKIM" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>
@@ -1111,8 +1111,8 @@
 										<input type="hidden" name="action" value="create" readonly />
 										<input type="hidden" name="type" value="DMARC" readonly />
 										<input type="hidden" name="domaine" value="<?= $rowZone[0]['domaine'] ?>" readonly />
-										<button type="submit" class="btn btn-primary">Valider</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+										<button type="submit" class="btn btn-primary">Ajouter</button>
 									</div>
 								</form>
 							</div>

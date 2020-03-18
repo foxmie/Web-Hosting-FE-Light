@@ -123,8 +123,8 @@
 																						<div class="modal-footer">
 																							<input type="hidden" name="action" value="delete" readonly />
 																							<input type="hidden" name="id" value="<?= $rowDomaine[$i]['id'] ?>" readonly />
-																							<button type="submit" class="btn btn-danger">Supprimer</button>
-																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+																							<button type="submit" class="btn btn-primary">Supprimer</button>
 																						</div>
 																					</form>
 																				</div>

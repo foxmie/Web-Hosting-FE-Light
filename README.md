@@ -20,14 +20,19 @@ Panel de gestion WEB (Light)
 ###  Accès au panel de gestion :
  ``http://ipv4:8000``
  
-###  Le script d'installation installera et configurera automatiquement les services suivants :
+###  Le script d'installation installera et configurera automatiquement les services suivants : 
  - Apache2
- - Bind9
- - MariaDB
- - OpenSSH
- - Sudo
- - PHP5.6, 7.0, 7.1, 7.2, 7.3, 7.4
+ - PHP 5.6, 7.0, 7.1, 7.2, 7.3, 7.4
  - phpMyAdmin
+ - Sudo
+ - SendMail
+ - MariaDB
+ - Bind9
+ - Nagios NRPE Client
+ - ProFTPD
+ - OpenSSH
+ - ClamAV
+ - ipTables
 
 ## Licences
 - Ce projet est sous licence ``GNU GENERAL PUBLIC LICENSE V3``

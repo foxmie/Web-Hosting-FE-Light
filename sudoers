@@ -47,6 +47,9 @@ Cmnd_Alias MYSQLSET = /core/mysql/lib/set.sh
 Cmnd_Alias SFTPCREATE = /core/sftp/lib/create.sh
 Cmnd_Alias SFTPDELETE = /core/sftp/lib/delete.sh
 Cmnd_Alias SFTPSET = /core/sftp/lib/set.sh
+Cmnd_Alias SFTPRESET = /core/sftp/lib/reset.sh
+
+Cmnd_Alias SERVICES = /core/security/services.sh
 
 # User privilege specification
 root	ALL=(ALL:ALL) ALL
@@ -66,6 +69,9 @@ www-data ALL=(ALL) NOPASSWD: MYSQLSET
 www-data ALL=(ALL) NOPASSWD: SFTPCREATE
 www-data ALL=(ALL) NOPASSWD: SFTPDELETE
 www-data ALL=(ALL) NOPASSWD: SFTPSET
+www-data ALL=(ALL) NOPASSWD: SFTPRESET
+
+www-data ALL=(ALL) NOPASSWD: SERVICES
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
 

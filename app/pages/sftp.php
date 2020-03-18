@@ -71,7 +71,6 @@
 									</li>
 								</ul>
 								<div class="tab-content">
-								
 									<div id="icon-info" class="tab-pane fade show active" role="tabpanel" aria-labelledby="info-tab">
 										<div class="container-fluid">
 											<div class="row">
@@ -83,10 +82,9 @@
 																<table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 																	<thead>
 																		<tr>
-																			<th><center>Compte SFTP</center></th>
-																			<th><center>Niveau de logs (Lors de la creation du compte)</center></th>
-																			<th><center>Version de PHP (Lors de la creation du compte)</center></th>
-																			<th class="disabled-sorting text-right"><center>Actions</center></th>
+																			<th width="25%"><center>Compte SFTP</center></th>
+																			<th width="20%"><center>Configuration du Vhost </br>(Lors de la creation du compte)</center></th>
+																			<th width="55%" class="disabled-sorting"><center>Actions</center></th>
 																		</tr>
 																	</thead>
 																	<tbody>
@@ -101,15 +99,73 @@
 																		?>
 																		<tr>
 																			<td><center><?= $rowSftp[$i]['fqdn'] ?></center></td>
-																			<td><center><?= $rowSftp[$i]['loglevel'] ?></center></td>
-																			<td><center><?= $rowSftp[$i]['phpvers'] ?></center></td>
+																			<td><center>Log level : <?= $rowSftp[$i]['loglevel'] ?> | PHP version : <?= $rowSftp[$i]['phpvers'] ?></center></td>
 																			<td class="text-right">
-																				<center>
-																					<a class="btn btn-link btn-warning" data-toggle="modal" data-target="#set<?= $rowSftp[$i]['id'] ?>"><i class="fa fa-edit"></i> Modifier le mot de passe</a>
-																					<a class="btn btn-link btn-danger" data-toggle="modal" data-target="#delete<?= $rowSftp[$i]['id'] ?>"><i class="fa fa-times"></i> Supprimer le compte</a>
-																				</center>
+																				<?php
+																					if ( $rowSftp[$i]['letsencrypt'] == '0' ){
+																				?>
+																				<a class="btn btn-link btn-success" data-toggle="modal" data-target="#letsencrypt<?= $rowSftp[$i]['id'] ?>"><i class="fa fa-lock"></i> Activer let's encrypt</a>
+																				<?php
+																					}else if ( $rowSftp[$i]['letsencrypt'] == '1' ){
+																				?>
+																				<a class="btn btn-link btn-warning" data-toggle="modal" data-target="#letsencrypt<?= $rowSftp[$i]['id'] ?>"><i class="fa fa-unlock"></i> Désactiver let's encrypt</a>
+																				<?php
+																					}
+																				?>
+																				<a class="btn btn-link btn-warning" data-toggle="modal" data-target="#set<?= $rowSftp[$i]['id'] ?>"><i class="fa fa-edit"></i> Modifier le mot de passe</a>
+																				<a class="btn btn-link btn-info" data-toggle="modal" data-target="#reset<?= $rowSftp[$i]['id'] ?>"><i class="fa fa-undo"></i> Réinitialiser les droits</a>
+																				<a class="btn btn-link btn-danger" data-toggle="modal" data-target="#delete<?= $rowSftp[$i]['id'] ?>"><i class="fa fa-times"></i> Supprimer le compte</a>
 																			</td>
 																		</tr>
+																		
+																		<!-- Let's Encrypt -->
+																		<div class="modal" id="letsencrypt<?= $rowSftp[$i]['id'] ?>" tabindex="-1" role="dialog">
+																			<div class="modal-dialog" role="document">
+																				<div class="modal-content">
+																					<form action="scripts/pages/sftp.php" method="POST">
+																						<div class="modal-header">
+																							<h5 class="modal-title">
+																								<?php
+																									if ( $rowSftp[$i]['letsencrypt'] == '0' ){
+																										echo 'Activation du certificat ssl let\'s encrypt';
+																									}else if ( $rowSftp[$i]['letsencrypt'] == '1' ){
+																										echo 'Désactivation du certificat ssl let\'s encrypt';
+																									}
+																								?>
+																							</h5>
+																							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																								<span aria-hidden="true">&times;</span>
+																							</button>
+																						</div>
+																						<div class="modal-body">
+																							<?php
+																								if ( $rowSftp[$i]['letsencrypt'] == '0' ){
+																									echo 'Vous êtes sur le point d\'activer un certificat ssl let\'s encrypt pour le compte : '.$rowSftp[$i]['fqdn'];
+																								}else if ( $rowSftp[$i]['letsencrypt'] == '1' ){
+																									echo 'Vous êtes sur le point de supprimer le certificat ssl let\'s encrypt pour le compte : '.$rowSftp[$i]['fqdn'];
+																								}
+																							?>
+																						</div>
+																						<div class="modal-footer">
+																							<input type="hidden" name="action" value="letsencrypt" readonly />
+																							<input type="hidden" name="id" value="<?= $rowSftp[$i]['id'] ?>" readonly />
+																							<input type="hidden" name="fqdn" value="<?= $rowSftp[$i]['fqdn'] ?>" readonly />
+																							<input type="hidden" name="state" value="<?= $rowSftp[$i]['letsencrypt'] ?>" readonly />
+																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+																							<button type="submit" class="btn btn-primary">
+																								<?php
+																									if ( $rowSftp[$i]['letsencrypt'] == '0' ){
+																										echo 'Activer let\'s encrypt';
+																									}else if ( $rowSftp[$i]['letsencrypt'] == '1' ){
+																										echo 'Désactiver let\'s encrypt';
+																									}
+																								?>
+																							</button>
+																						</div>
+																					</form>
+																				</div>
+																			</div>
+																		</div>
 																		
 																		<!-- Modifier le mot de passe -->
 																		<div class="modal" id="set<?= $rowSftp[$i]['id'] ?>" tabindex="-1" role="dialog">
@@ -136,14 +192,46 @@
 																							<input type="hidden" name="action" value="set" readonly />
 																							<input type="hidden" name="id" value="<?= $rowSftp[$i]['id'] ?>" readonly />
 																							<input type="hidden" name="fqdn" value="<?= $rowSftp[$i]['fqdn'] ?>" readonly />
-																							<button type="submit" class="btn btn-success">Modifier le mot de passe</button>
-																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+																							<button type="submit" class="btn btn-primary">Modifier le mot de passe</button>
 																						</div>
 																					</form>
 																				</div>
 																			</div>
 																		</div>
 																		
+																		<!-- Réinitialiser les droits -->
+																		<div class="modal" id="reset<?= $rowSftp[$i]['id'] ?>" tabindex="-1" role="dialog">
+																			<div class="modal-dialog" role="document">
+																				<div class="modal-content">
+																					<form action="scripts/pages/sftp.php" method="POST">
+																						<div class="modal-header">
+																							<h5 class="modal-title">Réinitialisation des droits</h5>
+																							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																								<span aria-hidden="true">&times;</span>
+																							</button>
+																						</div>
+																						<div class="modal-body">
+																							<p><center> Voici les actions qui vont être effectuées sur l'hébergement "<?= $rowSftp[$i]['fqdn'] ?>" : </center></p>
+																							<ul>
+																								<li>Propriétaire : <?= $rowSftp[$i]['fqdn'] ?> </li>
+																								<li>Groupe   : www-data </li>
+																								<li>Dossiers : chmod 775</li>
+																								<li>Fichiers : chmod 664</li>
+																							</ul>
+																						</div>
+																						<div class="modal-footer">
+																							<input type="hidden" name="action" value="reset" readonly />
+																							<input type="hidden" name="id" value="<?= $rowSftp[$i]['id'] ?>" readonly />
+																							<input type="hidden" name="fqdn" value="<?= $rowSftp[$i]['fqdn'] ?>" readonly />
+																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+																							<button type="submit" class="btn btn-primary">Réinitialiser les droits</button>
+																						</div>
+																					</form>
+																				</div>
+																			</div>
+																		</div>
+
 																		<!-- Supprimer le comptes -->
 																		<div class="modal" id="delete<?= $rowSftp[$i]['id'] ?>" tabindex="-1" role="dialog">
 																			<div class="modal-dialog" role="document">
@@ -162,8 +250,8 @@
 																							<input type="hidden" name="action" value="delete" readonly />
 																							<input type="hidden" name="id" value="<?= $rowSftp[$i]['id'] ?>" readonly />
 																							<input type="hidden" name="fqdn" value="<?= $rowSftp[$i]['fqdn'] ?>" readonly />
-																							<button type="submit" class="btn btn-danger">Supprimer</button>
-																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+																							<button type="submit" class="btn btn-primary">Supprimer</button>
 																						</div>
 																					</form>
 																				</div>
@@ -179,6 +267,10 @@
 															</div>
 														</div>
 													</div>
+													<form action="scripts/pages/sftp.php" method="POST">
+														<input type="hidden" name="action" value="renew" readonly />
+														<button class="btn btn-primary pull-right">Regénérer les certificats SSL Let's encrypt</button>
+													</form>
 												</div>
 											</div>
 										</div>

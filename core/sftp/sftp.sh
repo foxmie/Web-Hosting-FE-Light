@@ -47,6 +47,12 @@ else
 
 		bash "$emp/lib/set.sh" "$2" "$3"
 
+	# Reinitialisation des permissions de l'objet
+	elif [ $action = "reset" ];then
+		echo -e "\e[42m Reinitialisation des permissions de l'objet \e[49m \n"
+
+		bash "$emp/lib/reset.sh" "$2"
+
 	# Commande inconnue
 	else
 		echo -e "\e[101m Commande inconnue \e[49m \n"

@@ -19,28 +19,28 @@
 fqdn=$1
 
 # Protection des arguments
-if [ "$#" -ne 2 ];then
+if [ "$#" -ne 1 ];then
         echo -e "\e[101m La commande est incomplète ! \e[49m \n"
 else
 
-	# Suppression des certificats
-	rm /etc/letsencrypt/live/$fqdn -r
-	rm /etc/letsencrypt/renewal/$fqdn.conf
-	rm /etc/letsencrypt/archive/$fqdn -r
+	# Utilisateurs interdit
+        if [ $fqdn = "debian" ]
+        then
+                echo -e "\e[31m Ce nom est interdit ! \e[39m"
+        else
 
-	# Suppression de la configuration Apache
-	rm /etc/apache2/sites-enabled/$fqdn-le-ssl.conf
-	rm /etc/apache2/sites-available/$fqdn-le-ssl.conf
+		# Modification du proprietaire
+		chown -R $fqdn:www-data /home/$fqdn/www
 
-	# Suppression de la redirection du Vhost
-	sed -i -e "s/RewriteEngine on//g" /home/$fqdn/conf/apache.conf
-	sed -i -e "s/RewriteCond %{SERVER_NAME} =$fqdn//g" /home/$fqdn/conf/apache.conf
-	sed -i -e "s/RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,QSA,R=permanent]//g" /home/$fqdn/conf/apache.conf
+		# Chmod Dossiers
+		find "/home/$fqdn/www" -type d -exec chmod 775 {} \;
 
-	# Redemarrage des services
-	service apache2 reload
+		# Chmod Fichiers
+		find "/home/$fqdn/www" -type f -exec chmod 664 {} \;
 
-	# Message de fin
-        echo -e "\n \e[32m Opération terminé avec succès ! \e[39m \n"
+		# Message de fin
+                echo -e "\n \e[32m Opération terminé avec succès ! \e[39m \n"
+
+	fi
 
 fi
