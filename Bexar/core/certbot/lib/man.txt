@@ -1,0 +1,12 @@
+- Options
+fqdn -> Nom complet du domaine
+
+- Ajouter un certificat
+webhostingfe.sh certbot create "fqdn"
+
+- Renouveller tout les certificats
+webhostingfe.sh certbot renew
+
+- Supprimer un certificat
+webhostingfe.sh certbot delete "fqdn"
+
