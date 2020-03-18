@@ -50,6 +50,7 @@
 					$domaine = htmlspecialchars($_POST['domaine']);
 					$extension = htmlspecialchars($_POST['extension']);
 					$domaine = "$domaine$extension";
+					$domaine = str_replace(' ','',$domaine);
 					
 					// Verification de la disponibilitee du domaine
 					$database->query("SELECT * FROM bindzone WHERE domaine = :domaine");

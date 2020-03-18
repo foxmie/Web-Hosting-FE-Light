@@ -40,6 +40,8 @@ apt-get -y install openssh-server
 apt-get -y install ntp ntpdate
 apt-get -y install python-certbot-apache
 apt-get -y install sudo
+apt-get -y install sendmail
+apt-get -y install mailutils
 
 # Definition des mots de passe
 mysqlroot=`date +%s | sha256sum | base64 | head -c 25`
@@ -60,6 +62,10 @@ sed -i -e "s/pool 1.debian.pool.ntp.org iburst/server 1.fr.pool.ntp.org iburst d
 sed -i -e "s/pool 2.debian.pool.ntp.org iburst/server 2.fr.pool.ntp.org iburst dynamic/g" /etc/ntp.conf 
 sed -i -e "s/pool 3.debian.pool.ntp.org iburst/server 3.fr.pool.ntp.org iburst dynamic/g" /etc/ntp.conf 
 /etc/init.d/ntp restart
+
+# Redemarrage de syslog
+apt install -y --reinstall tzdata
+/etc/init.d/rsyslog restart
 
 # Installation du service WEB
 apt-get -y install apache2 libapache2-mod-fcgid
@@ -124,6 +130,11 @@ update-alternatives --set phar.phar /usr/bin/phar.phar7.0
 update-alternatives --set phpize /usr/bin/phpize7.0
 update-alternatives --set php-config /usr/bin/php-config7.0
 
+# Installation des extensions de php requis par prestashop, joomla, drupal et wordpress
+apt-get -y install php5.6-gd php7.0-gd php7.1-gd php7.2-gd php7.3-gd php7.4-gd
+apt-get -y install php5.6-zip php7.0-zip php7.1-zip php7.2-zip php7.3-zip php7.4-zip
+apt-get -y install php5.6-intl php7.0-intl php7.1-intl php7.2-intl php7.3-intl php7.4-intl
+
 # Installation de MariaDB
 apt-get -y install mariadb-server
 
@@ -161,6 +172,41 @@ phpenmod -v 7.4 mbstring
 systemctl restart apache2
 systemctl restart mariadb
 
+# Modification des upload PHP 5.6
+sed -i -e "s/post_max_size = 8M/post_max_size = 8192M/g" /etc/php/5.6/apache2/php.ini
+sed -i -e "s/upload_max_filesize = 2M/upload_max_filesize = 2048M/g" /etc/php/5.6/apache2/php.ini
+
+# Modification des upload PHP 7.0
+sed -i -e "s/post_max_size = 8M/post_max_size = 8192M/g" /etc/php/7.0/apache2/php.ini
+sed -i -e "s/upload_max_filesize = 2M/upload_max_filesize = 2048M/g" /etc/php/7.0/apache2/php.ini
+
+# Modification des upload PHP 7.1
+sed -i -e "s/post_max_size = 8M/post_max_size = 8192M/g" /etc/php/7.1/apache2/php.ini
+sed -i -e "s/upload_max_filesize = 2M/upload_max_filesize = 2048M/g" /etc/php/7.1/apache2/php.ini
+
+# Modification des upload PHP 7.2
+sed -i -e "s/post_max_size = 8M/post_max_size = 8192M/g" /etc/php/7.2/apache2/php.ini
+sed -i -e "s/upload_max_filesize = 2M/upload_max_filesize = 2048M/g" /etc/php/7.2/apache2/php.ini
+
+# Modification des upload PHP 7.3
+sed -i -e "s/post_max_size = 8M/post_max_size = 8192M/g" /etc/php/7.3/apache2/php.ini
+sed -i -e "s/upload_max_filesize = 2M/upload_max_filesize = 2048M/g" /etc/php/7.3/apache2/php.ini
+
+# Modification des upload PHP 7.4
+sed -i -e "s/post_max_size = 8M/post_max_size = 8192M/g" /etc/php/7.4/apache2/php.ini
+sed -i -e "s/upload_max_filesize = 2M/upload_max_filesize = 2048M/g" /etc/php/7.4/apache2/php.ini
+
+# Parametrage de l'envoie de mail
+sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/sendmail/g" /etc/php/5.6/apache2/php.ini
+sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/sendmail/g" /etc/php/7.0/apache2/php.ini
+sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/sendmail/g" /etc/php/7.1/apache2/php.ini
+sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/sendmail/g" /etc/php/7.2/apache2/php.ini
+sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/sendmail/g" /etc/php/7.3/apache2/php.ini
+sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/sendmail/g" /etc/php/7.4/apache2/php.ini
+
+# Redemarrage d'apache2
+/etc/init.d/apache2 restart
+
 # Installation d'un compte admin phpmyadmin (Uniquement pour les tests)
 #mysql -e "CREATE USER 'phproot'@'localhost' IDENTIFIED BY 'phproot';"
 #mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'phproot'@'localhost' WITH GRANT OPTION;"
@@ -176,6 +222,17 @@ echo "X11Forwarding no" >> /etc/ssh/sshd_config
 echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config
 echo "ChrootDirectory /home/%u" >> /etc/ssh/sshd_config
 echo "ForceCommand internal-sftp" >> /etc/ssh/sshd_config
+
+# Installation du service FTP
+apt-get -y install proftpd-mod-mysql
+
+# Configuration du service FTP
+sed -i 's/"Debian"/"Foxmie MUTU"/g' /etc/proftpd/proftpd.conf
+sed -i '37iDefaultRoot                   /home/%u' /etc/proftpd/proftpd.conf
+sed -i 's/# RequireValidShell/RequireValidShell/g' /etc/proftpd/proftpd.conf
+
+# Redemarrage du service FTP
+service proftpd restart
 
 # Redémarrage des services
 service ssh restart
@@ -280,6 +337,157 @@ a2ensite 000-default
 # Redemarrage des services
 service apache2 restart
 
+# Installation du plugin nagios
+apt-get -y install nagios-nrpe-server
+apt-get -y install nagios-plugins
+
+# Ajout du serveur de monitoring
+# sed -i -e "s/allowed_hosts=127.0.0.1/allowed_hosts=$ipduserveurdemonitoring/g" /etc/nagios/nrpe.cfg
+
+# Automatisation du démarrage de nagios
+update-rc.d nagios-nrpe-server defaults
+service nagios-nrpe-server restart
+
+# Definition des commandes
+echo '# Commandes Foxmie' >> /etc/nagios/nrpe.cfg
+echo 'command[check_disk_/]=/usr/lib/nagios/plugins/check_disk -w 20 -c 10 -p /' >> /etc/nagios/nrpe.cfg
+echo 'command[check_load]=/usr/lib/nagios/plugins/check_load -w 50 -c 80' >> /etc/nagios/nrpe.cfg
+echo 'command[check_http]=/usr/lib/nagios/plugins/check_tcp -H 127.0.0.1 -p 80 -w 5 -c 8' >> /etc/nagios/nrpe.cfg
+echo 'command[check_https]=/usr/lib/nagios/plugins/check_tcp -H 127.0.0.1 -p 443 -w 5 -c 8' >> /etc/nagios/nrpe.cfg
+echo 'command[check_panel]=/usr/lib/nagios/plugins/check_tcp -H 127.0.0.1 -p 8000 -w 5 -c 8' >> /etc/nagios/nrpe.cfg
+echo 'command[check_mysql]=/usr/lib/nagios/plugins/check_tcp -H 127.0.0.1 -p 3306 -w 5 -c 8' >> /etc/nagios/nrpe.cfg
+echo 'command[check_ssh]=/usr/lib/nagios/plugins/check_ssh -p 22 127.0.0.1' >> /etc/nagios/nrpe.cfg
+echo 'command[check_smtp]=/usr/lib/nagios/plugins/check_tcp -H 127.0.0.1 -p 25 -w 5 -c 8' >> /etc/nagios/nrpe.cfg
+echo 'command[check_dns]=/usr/lib/nagios/plugins/check_tcp -H 127.0.0.1 -p 53 -w 5 -c 8' >> /etc/nagios/nrpe.cfg
+
+# Redémarrage du service nagios
+service nagios-nrpe-server restart
+
+# Installation de l'antivirus
+apt-get -y install clamav clamav-freshclam clamav-daemon
+
+# Mise a jour de la base anti-virus
+service clamav-freshclam stop && freshclam && service clamav-freshclam start
+
+# Analyse
+cat <<EOF > /core/security/clamav.sh
+#!/bin/bash
+
+emp='/home/'
+cd \$emp
+
+for home in *
+do
+        if [ \$home == 'debian' ];then
+                clamscan -i -r \$emp\$home > \$emp\$home/scanresults.txt
+                chown \$home:www-data \$emp\$home/scanresults.txt
+        elif [ -d \$home ];then
+                clamscan -i -r \$emp\$home > \$emp\$home/logs/scanresults.txt
+                chown \$home:www-data \$emp\$home/logs/scanresults.txt
+        fi
+done
+EOF
+chmod +x /core/security/clamav.sh
+
+# Planification
+echo "00 5,23 * * * root /core/security/clamav.sh" >> /etc/crontab
+service cron reload
+
+# Installation d'iptables-persistent
+echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
+debconf-get-selections | grep iptables
+apt-get -y install iptables-persistent
+
+# Configuration des regles IPv6
+if [ -f /etc/iptables/rules.v6 ]; then
+   echo "*filter" > /etc/iptables/rules.v6
+   echo ":INPUT DROP [0:0]" >> /etc/iptables/rules.v6
+   echo ":FORWARD DROP [0:0]" >> /etc/iptables/rules.v6
+   echo ":OUTPUT DROP [0:0]" >> /etc/iptables/rules.v6
+   echo "COMMIT" >> /etc/iptables/rules.v6
+else
+   echo "Le kernel n'est pas compatible"
+fi
+
+# Configuration des règles IPv4
+cat >/etc/iptables/rules.v4 <<EOF
+# Generated by iptables-save v1.6.0 on Thu Aug 16 17:41:17 2018
+*filter
+:INPUT ACCEPT [1543:124410]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [1451:141500]
+
+# Allow internal traffic on the loopback device
+-A INPUT -i lo -j ACCEPT
+
+# Continue connections that are already established or related to an established connection
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+# Drop non-conforming packets, such as malformed headers, etc.
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+
+# SSH
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+
+# DHCP used by OVH
+-A INPUT -p udp --dport 67:68 --sport 67:68 -j ACCEPT
+
+# DNS (bind)
+-A OUTPUT -p tcp --dport 53 -j ACCEPT
+-A OUTPUT -p udp --dport 53 -j ACCEPT
+
+# HTTP + HTTPS
+-A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT
+
+# Email (postfix + devecot)
+# 25 = smtp, 587 = submission and 993 = IMAPS
+#-A INPUT -p tcp -m multiport --dports 25,587,993 -j ACCEPT
+
+# SMTP
+-A INPUT -p tcp --dport 25 -j ACCEPT
+
+# NTP
+-A INPUT -p udp --dport 123 -j ACCEPT
+
+# Chain for preventing ping flooding - up to 6 pings per second from a single
+# source, again with log limiting. Also prevents us from ICMP REPLY flooding
+# some victim when replying to ICMP ECHO from a spoofed source.
+-N ICMPFLOOD
+-A ICMPFLOOD -m recent --name ICMP --set --rsource
+-A ICMPFLOOD -m recent --name ICMP --update --seconds 1 --hitcount 6 --rsource --rttl -m limit --limit 1/sec --limit-burst 1 -j LOG --log-prefix "iptables[ICMP-flood]: "
+-A ICMPFLOOD -m recent --name ICMP --update --seconds 1 --hitcount 6 --rsource --rttl -j DROP
+-A ICMPFLOOD -j ACCEPT
+
+# Permit useful IMCP packet types.
+# Note: RFC 792 states that all hosts MUST respond to ICMP ECHO requests.
+# Blocking these can make diagnosing of even simple faults much more tricky.
+# Real security lies in locking down and hardening all services, not by hiding.
+-A INPUT -p icmp --icmp-type 0  -m conntrack --ctstate NEW -j ACCEPT
+-A INPUT -p icmp --icmp-type 3  -m conntrack --ctstate NEW -j ACCEPT
+-A INPUT -p icmp --icmp-type 8  -m conntrack --ctstate NEW -j ICMPFLOOD
+-A INPUT -p icmp --icmp-type 11 -m conntrack --ctstate NEW -j ACCEPT
+
+# Drop all incoming malformed NULL packets
+-A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+
+# Drop syn-flood attack packets
+-A INPUT -p tcp ! --syn -m conntrack --ctstate NEW -j DROP
+
+# Drop incoming malformed XMAS packets
+-A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+
+# Nagios NRPE
+-A INPUT -p tcp -m tcp --dport 5666 -j ACCEPT
+
+COMMIT
+# Completed on Thu Aug 16 17:41:17 2018
+EOF
+
+# Redemarrage iptables-persistent
+service netfilter-persistent restart
+
 # Suppression des fichiers
 rm setup.sh
-
+rm LICENSE
+rm README.md

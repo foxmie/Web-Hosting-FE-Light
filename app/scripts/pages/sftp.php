@@ -195,6 +195,7 @@
 				
 					// Recuperation de l'id
 					$id = htmlspecialchars($_POST['id']);
+					$fqdn = htmlspecialchars($_POST['fqdn']);
 					
 					// Verification de la disponibilite du compte
 					$database->query("SELECT * FROM sftp WHERE id = :id");
@@ -245,7 +246,7 @@
 						
 						// Définition de l'alerte
 						$_SESSION['tmp']['sftp']['type'] = 'warning';
-						$_SESSION['tmp']['sftp']['msgbox'] = 'Le compte sftp "'.$domaine.'" n\'existe pas !';
+						$_SESSION['tmp']['sftp']['msgbox'] = 'Le compte sftp "'.$fqdn.'" n\'existe pas !';
 						
 						// Redirection
 						header('Location:../../?service=sftp');
@@ -284,6 +285,7 @@
 				
 					// Recuperation de l'id
 					$id = htmlspecialchars($_POST['id']);
+					$fqdn = htmlspecialchars($_POST['fqdn']);
 					
 					// Verification de la disponibilite du compte
 					$database->query("SELECT * FROM sftp WHERE id = :id");
@@ -324,7 +326,7 @@
 						
 						// Définition de l'alerte
 						$_SESSION['tmp']['sftp']['type'] = 'warning';
-						$_SESSION['tmp']['sftp']['msgbox'] = 'Le compte sftp "'.$domaine.'" n\'existe pas !';
+						$_SESSION['tmp']['sftp']['msgbox'] = 'Le compte sftp "'.$fqdn.'" n\'existe pas !';
 						
 						// Redirection
 						header('Location:../../?service=sftp');
@@ -353,6 +355,176 @@
 				
 			}
 			
+		// Réinitialisation des permissions
+		}else if ( $action == "reset" ){
+			
+			// Protection de la connectivité
+			if (!empty($_SESSION['webhostingfe'])){
+				
+				if ( !empty($_POST['id']) and !empty($_POST['fqdn']) ){
+				
+					// Recuperation de l'id
+					$id = htmlspecialchars($_POST['id']);
+					$fqdn = htmlspecialchars($_POST['fqdn']);
+					
+					// Verification de la disponibilite du compte
+					$database->query("SELECT * FROM sftp WHERE id = :id");
+					$database->bind(':id', $id);
+					$row = $database->resultset();
+					$countfqdn = $database->rowCount();
+
+					if ($countfqdn > 0){
+						
+						// Envoie de la commande de réinitialisation des permissions
+						$fqdn = $_POST['fqdn'];
+						$output = shell_exec("sudo $core/sftp/lib/reset.sh '$fqdn' ");
+						print($output);
+						
+						// Définition de l'alerte
+						$_SESSION['tmp']['sftp']['type'] = 'success';
+						$_SESSION['tmp']['sftp']['msgbox'] = 'Les permissions du compte ont été mises à jour !';
+						
+						// Redirection
+						header('Location:../../?service=sftp');
+						
+					}else{
+						
+						// Définition de l'alerte
+						$_SESSION['tmp']['sftp']['type'] = 'warning';
+						$_SESSION['tmp']['sftp']['msgbox'] = 'Le compte sftp "'.$fqdn.'" n\'existe pas !';
+						
+						// Redirection
+						header('Location:../../?service=sftp');
+						
+					}
+					
+				}else{
+					
+					// Définition de l'alerte
+					$_SESSION['tmp']['sftp']['type'] = 'danger';
+					$_SESSION['tmp']['sftp']['msgbox'] = 'Erreur irécupérable !';
+					
+					// Redirection
+					header('Location:../../?service=sftp');
+					
+				}
+				
+			}else{
+				
+				// Définition de l'alerte
+				$_SESSION['tmp']['login']['type'] = 'danger';
+				$_SESSION['tmp']['login']['msgbox'] = 'Echec lors de la récupération de l\'identifiant utilisateur';
+				
+				// Redirection
+				header('Location:../logout.php');
+				
+			}
+			
+		// Activation / Désactivation de let's encrypt
+		}else if ( $action == "letsencrypt" ){
+			
+			// Protection de la connectivité
+			if (!empty($_SESSION['webhostingfe'])){
+				
+				// Protection
+				if ( !empty($_POST['id']) and !empty($_POST['fqdn']) ){
+					
+					// Récupération des valeurs
+					$id = htmlspecialchars($_POST['id']);
+					$fqdn = htmlspecialchars($_POST['fqdn']);
+					$state = htmlspecialchars($_POST['state']);
+					
+					// Verification de la disponibilite du compte
+					$database->query("SELECT * FROM sftp WHERE id = :id");
+					$database->bind(':id', $id);
+					$row = $database->resultset();
+					$countfqdn = $database->rowCount();
+
+					if ($countfqdn > 0){
+						
+						// Définition de l'action
+						if ( $state == '0' ){
+							
+							// Envoie de la commande
+							$output = shell_exec("sudo $core/certbot/lib/create.sh '$fqdn' ");
+							print($output);
+						
+							// Modification de let's encrypt dans la base de données
+							$database->query("UPDATE `sftp` SET `letsencrypt` = '1' WHERE `sftp`.`id` = :id");
+							$database->bind(':id', $id);
+							$database->execute();
+							
+							// Définition de l'alerte
+							$_SESSION['tmp']['sftp']['type'] = 'success';
+							$_SESSION['tmp']['sftp']['msgbox'] = 'Activation en cours du certificat SSL let\'s encrypt sur le compte : '.$fqdn;
+						
+						}else if ( $state == '1' ){
+							
+							// Envoie de la commande
+							$output = shell_exec("sudo $core/certbot/lib/delete.sh '$fqdn' ");
+							print($output);
+							
+							// Modification de let's encrypt dans la base de données
+							$database->query("UPDATE `sftp` SET `letsencrypt` = '0' WHERE `sftp`.`id` = :id");
+							$database->bind(':id', $id);
+							$database->execute();
+							
+							// Définition de l'alerte
+							$_SESSION['tmp']['sftp']['type'] = 'success';
+							$_SESSION['tmp']['sftp']['msgbox'] = 'Désactivation en cours du certificat SSL let\'s encrypt sur le compte : '.$fqdn;
+						
+						}
+						
+						// Redirection
+						header('Location:../../?service=sftp');
+						
+					}else{
+						
+						// Définition de l'alerte
+						$_SESSION['tmp']['sftp']['type'] = 'warning';
+						$_SESSION['tmp']['sftp']['msgbox'] = 'Le compte sftp "'.$fqdn.'" n\'existe pas !';
+						
+						// Redirection
+						header('Location:../../?service=sftp');
+						
+					}
+					
+				}else{
+					
+					// Définition de l'alerte
+					$_SESSION['tmp']['sftp']['type'] = 'danger';
+					$_SESSION['tmp']['sftp']['msgbox'] = 'Erreur irécupérable !';
+					
+					// Redirection
+					header('Location:../../?service=sftp');
+					
+				}
+				
+			}else{
+				
+				// Définition de l'alerte
+				$_SESSION['tmp']['login']['type'] = 'danger';
+				$_SESSION['tmp']['login']['msgbox'] = 'Echec lors de la récupération de l\'identifiant utilisateur';
+				
+				// Redirection
+				header('Location:../logout.php');
+				
+			}
+			
+		// Renouvellement des certificats letès encrypt
+		}else if ( $action == "renew" ){
+			
+			// Envoie de la commande
+			$output = shell_exec("sudo $core/certbot/lib/renew.sh ");
+			print($output);
+			
+			// Définition de l'alerte
+			$_SESSION['tmp']['sftp']['type'] = 'success';
+			$_SESSION['tmp']['sftp']['msgbox'] = 'Renouvellement des certificat SSL let\'s encrypt en cours';
+			
+			// Redirection
+			header('Location:../../?service=sftp');
+						
 		// Erreur irécupérable
 		}else{
 			

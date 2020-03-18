@@ -3,24 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Ven 10 Janvier 2020 à 02:57
--- Version du serveur :  10.1.41-MariaDB-0+deb9u1
--- Version de PHP :  7.0.33-14+0~20191218.25+debian9~1.gbpae1889
-
---    This file is part of Web Hosting FE Light.
---
---    Web Hosting FE Light is free software: you can redistribute it and/or modify
---    it under the terms of the GNU General Public License as published by
---    the Free Software Foundation, either version 3 of the License, or
---    (at your option) any later version.
---
---    Web Hosting FE Light is distributed in the hope that it will be useful,
---    but WITHOUT ANY WARRANTY; without even the implied warranty of
---    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---    GNU General Public License for more details.
---
---    You should have received a copy of the GNU General Public License
---    along with Web Hosting FE Light.  If not, see <https://www.gnu.org/licenses/>.
+-- Généré le :  Mar 17 Mars 2020 à 20:19
+-- Version du serveur :  10.1.44-MariaDB-0+deb9u1
+-- Version de PHP :  7.0.33-25+0~20200225.32+debian9~1.gbpa11893
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -90,18 +75,6 @@ CREATE TABLE `bindzone` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `certbot`
---
-
-CREATE TABLE `certbot` (
-  `id` int(25) NOT NULL,
-  `sftp` int(25) DEFAULT NULL,
-  `state` int(25) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `mysql`
 --
 
@@ -118,6 +91,7 @@ CREATE TABLE `mysql` (
 
 CREATE TABLE `sftp` (
   `id` int(25) NOT NULL,
+  `letsencrypt` int(25) NOT NULL DEFAULT '0',
   `fqdn` text,
   `loglevel` text,
   `phpvers` text,
@@ -161,12 +135,6 @@ ALTER TABLE `bindzone`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `certbot`
---
-ALTER TABLE `certbot`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `mysql`
 --
 ALTER TABLE `mysql`
@@ -202,11 +170,6 @@ ALTER TABLE `bindrecord`
 -- AUTO_INCREMENT pour la table `bindzone`
 --
 ALTER TABLE `bindzone`
-  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `certbot`
---
-ALTER TABLE `certbot`
   MODIFY `id` int(25) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `mysql`

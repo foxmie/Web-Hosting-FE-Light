@@ -10,6 +10,9 @@ webhostingfe.sh sftp create "fqdn" "passwd" "loglevel" "phpvers"
  - Modifier le mot de passe de l'hebergement
 webhostingfe.sh sftp set "fqdn" "passwd"
 
+ - Reinitialiser les permissions de l'objet
+webhostingfe.sh sftp reset "fqdn"
+
  - Supprimer l'hebergement
 webhostingfe.sh sftp delete "fqdn"
 

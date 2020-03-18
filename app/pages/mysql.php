@@ -64,10 +64,10 @@
 							<div class="card-body content-full-width">
 								<ul role="tablist" class="nav nav-tabs">
 									<li role="presentation" class="nav-item show active">
-										<a class="nav-link" id="info-tab" href="#icon-info" data-toggle="tab"><i class="fa fa-info"></i> Liste des comptes</a>
+										<a class="nav-link" id="info-tab" href="#icon-info" data-toggle="tab"><i class="fa fa-info"></i> Liste des bases de données</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" id="createsftp-tab" href="#icon-createsftp" data-toggle="tab"><i class="fa fa-plus"></i> Ajouter un compte</a>
+										<a class="nav-link" id="createsftp-tab" href="#icon-createsftp" data-toggle="tab"><i class="fa fa-plus"></i> Ajouter une base de données</a>
 									</li>
 								</ul>
 								<div class="tab-content">
@@ -86,6 +86,7 @@
 																			<th><center>Base de données</center></th>
 																			<th><center>Utilisateur</center></th>
 																			<th><center>Host</center></th>
+																			<th><center>phpMyAdmin</center></th>
 																			<th class="disabled-sorting text-right"><center>Actions</center></th>
 																		</tr>
 																	</thead>
@@ -103,10 +104,11 @@
 																			<td><center><?= $rowMySQL[$i]['databasename'] ?></center></td>
 																			<td><center><?= $rowMySQL[$i]['databasename'] ?></center></td>
 																			<td><center>LocalHost</center></td>
+																			<td><center><a class="btn btn-link btn-info" target="phpmyadmin<?= $rowMySQL[$i]['databasename'] ?>" href="http://<?= $_SERVER['SERVER_ADDR'] ?>:8000/phpmyadmin/?pma_username=<?= $rowMySQL[$i]['databasename'] ?>"><i class="fa fa-server"></i> phpMyAdmin</a></center></td>
 																			<td class="text-right">
 																				<center>
 																					<a class="btn btn-link btn-warning" data-toggle="modal" data-target="#set<?= $rowMySQL[$i]['id'] ?>"><i class="fa fa-edit"></i> Modifier le mot de passe</a>
-																					<a class="btn btn-link btn-danger" data-toggle="modal" data-target="#delete<?= $rowMySQL[$i]['id'] ?>"><i class="fa fa-times"></i> Supprimer le compte</a>
+																					<a class="btn btn-link btn-danger" data-toggle="modal" data-target="#delete<?= $rowMySQL[$i]['id'] ?>"><i class="fa fa-times"></i> Supprimer la base de données</a>
 																				</center>
 																			</td>
 																		</tr>
@@ -136,8 +138,8 @@
 																							<input type="hidden" name="action" value="set" readonly />
 																							<input type="hidden" name="id" value="<?= $rowMySQL[$i]['id'] ?>" readonly />
 																							<input type="hidden" name="name" value="<?= $rowMySQL[$i]['databasename'] ?>" readonly />
-																							<button type="submit" class="btn btn-success">Modifier le mot de passe</button>
-																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+																							<button type="submit" class="btn btn-primary">Modifier le mot de passe</button>
 																						</div>
 																					</form>
 																				</div>
@@ -156,14 +158,14 @@
 																							</button>
 																						</div>
 																						<div class="modal-body">
-																							<p>Voulez vous vraiment supprimer le comptes "<?= $rowMySQL[$i]['databasename'] ?>" ?</p>
+																							<p>Voulez vous vraiment supprimer la base de données "<?= $rowMySQL[$i]['databasename'] ?>" ?</p>
 																						</div>
 																						<div class="modal-footer">
 																							<input type="hidden" name="action" value="delete" readonly />
 																							<input type="hidden" name="id" value="<?= $rowMySQL[$i]['id'] ?>" readonly />
 																							<input type="hidden" name="name" value="<?= $rowMySQL[$i]['databasename'] ?>" readonly />
-																							<button type="submit" class="btn btn-danger">Supprimer</button>
-																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+																							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+																							<button type="submit" class="btn btn-primary">Supprimer</button>
 																						</div>
 																					</form>
 																				</div>
@@ -193,7 +195,7 @@
 														<div class="row">
 															<div class="col-md-12">
 																<div class="card-body">
-																	<h4 class="card-title"><center>Création d'un compte MySQL</center></h4><hr>
+																	<h4 class="card-title"><center>Création d'une base de données</center></h4><hr>
 																	<form action="scripts/pages/mysql.php" method="POST">
 																		<div class="col-md-12">
 																			<div class="row">
@@ -218,7 +220,7 @@
 																			</div>
 																		</div>
 																		<input type="hidden" name="action" value="create" readonly />
-																		<button type="submit" class="btn btn-primary btn-block">Créer le compte</button>
+																		<button type="submit" class="btn btn-primary btn-block">Créer la base de données</button>
 																	</form>
 																</div>
 															</div>

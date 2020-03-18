@@ -312,12 +312,50 @@
 		$mysql = 0;
 	}
 	
-?>
+?>			
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="card-body">
+												<h4 class="card-title"><center>Dashboard</center></h4><hr>
+												<?php
+																		
+													if ( !empty($_SESSION['tmp']['dashboard']['type']) and !empty($_SESSION['tmp']['dashboard']['msgbox']) ){
+													
+												?>	
+												<div class="alert alert-<?= $_SESSION['tmp']['dashboard']['type'] ?>">
+													<button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+														<i class="nc-icon nc-simple-remove"></i>
+													</button>
+													<span>
+														<center> <?= $_SESSION['tmp']['dashboard']['msgbox'] ?> </center>
+													</span>
+												</div>
+												<?php
+														
+														// Suppression des sessions temporaires
+														unset($_SESSION['tmp']['dashboard']['type']);
+														unset($_SESSION['tmp']['dashboard']['msgbox']);
+													}
+												?>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
 					<div class="container-fluid">
 						<div class="row">	
 							<div class="col-md-12">	
 								<div class="container-fluid">
 									<div class="row">
+										
+										
 										
 										<div class="col-md-6">
 											<div class="card data-tables">
@@ -516,6 +554,62 @@
 																</tr>
 															</tbody>
 														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-md-12">
+											<div class="card data-tables">
+												<div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+													<div class="toolbar"></div>
+													<div class="fresh-datatables">
+														<div class="row">
+															<div class="col-md-6">
+																<table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+																	<tbody>
+																		<tr>
+																			<td><center>Service WEB</center></td>
+																			<td><center><a href="scripts/services.php?service=1" class="btn btn-primary btn-block">Redémarrer</a></center></td>
+																		</tr>
+																		<tr>
+																			<td><center>Service MySQL</center></td>
+																			<td><center><a href="scripts/services.php?service=2" class="btn btn-primary btn-block">Redémarrer</a></center></td>
+																		</tr>
+																		<tr>
+																			<td><center>Service DNS</center></td>
+																			<td><center><a href="scripts/services.php?service=3" class="btn btn-primary btn-block">Redémarrer</a></center></td>
+																		</tr>
+																		<tr>
+																			<td><center>Service de Monitoring</center></td>
+																			<td><center><a href="scripts/services.php?service=4" class="btn btn-primary btn-block">Redémarrer</a></center></td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+															<div class="col-md-6">
+																<table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+																	<tbody>
+																		<tr>
+																			<td><center>Service FTP</center></td>
+																			<td><center><a href="scripts/services.php?service=5" class="btn btn-primary btn-block">Redémarrer</a></center></td>
+																		</tr>
+																		<tr>
+																			<td><center>Service SFTP</center></td>
+																			<td><center><a href="scripts/services.php?service=6" class="btn btn-primary btn-block">Redémarrer</a></center></td>
+																		</tr>
+																		<tr>
+																			<td><center>Service Antivirus</center></td>
+																			<td><center><a href="scripts/services.php?service=7" class="btn btn-primary btn-block">Redémarrer</a></center></td>
+																		</tr>
+																		<tr>
+																			<td><center>Service Pare-feu</center></td>
+																			<td><center><a href="scripts/services.php?service=8" class="btn btn-primary btn-block">Redémarrer</a></center></td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
