@@ -19,7 +19,7 @@
 fqdn=$1
 
 # Protection des arguments
-if [ "$#" -ne 2 ];then
+if [ "$#" -ne 1 ];then
         echo -e "\e[101m La commande est incomplète ! \e[49m \n"
 else
 
