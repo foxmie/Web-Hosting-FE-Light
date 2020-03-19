@@ -47,6 +47,9 @@ apt-get -y install mailutils
 mysqlroot=`date +%s | sha256sum | base64 | head -c 25`
 webhostingfepassword=`date +%s | sha256sum | base64 | head -c 25`
 
+# Recuperation de l'adresse IPv4
+ipv4=`ip -4 addr list eth0 | awk '{ print $2 }' | sed -n 2p | cut -d'/' -f1`
+
 # Configuration de l'heure
 service ntp stop
 rm /etc/timezone
@@ -305,7 +308,7 @@ rm /etc/apache2/sites-available/*
 # Creation du VHOST
 echo "Listen 8000" > /etc/apache2/sites-available/000-default.conf
 echo "" >> /etc/apache2/sites-available/000-default.conf
-echo "<VirtualHost *:80>" >> /etc/apache2/sites-available/000-default.conf
+echo "<VirtualHost $ipv4:80>" >> /etc/apache2/sites-available/000-default.conf
 echo "" >> /etc/apache2/sites-available/000-default.conf
 echo "        DocumentRoot /var/www/html" >> /etc/apache2/sites-available/000-default.conf
 echo "" >> /etc/apache2/sites-available/000-default.conf
@@ -314,7 +317,7 @@ echo "        CustomLog /var/www/access.log combined" >> /etc/apache2/sites-avai
 echo "" >> /etc/apache2/sites-available/000-default.conf
 echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf
 echo "" >> /etc/apache2/sites-available/000-default.conf
-echo "<VirtualHost *:8000>" >> /etc/apache2/sites-available/000-default.conf
+echo "<VirtualHost $ipv4:8000>" >> /etc/apache2/sites-available/000-default.conf
 echo "	" >> /etc/apache2/sites-available/000-default.conf
 echo "    Alias /phpmyadmin /usr/share/phpmyadmin" >> /etc/apache2/sites-available/000-default.conf
 echo "    DocumentRoot /app" >> /etc/apache2/sites-available/000-default.conf
