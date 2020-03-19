@@ -20,6 +20,7 @@ fqdn=$1
 passwd=$2
 loglevel=$3
 phpvers=$4
+ipv4=`ip -4 addr list eth0 | awk '{ print $2 }' | sed -n 2p | cut -d'/' -f1`
 
 # Protection des arguments
 if [ "$#" -ne 4 ];then
@@ -50,7 +51,7 @@ else
 		chmod -R 750 /home/$fqdn/conf
 
 		# Creation du Vhost
-		echo "<VirtualHost *:80>" > /home/$fqdn/conf/apache.conf
+		echo "<VirtualHost $ipv4:80>" > /home/$fqdn/conf/apache.conf
 		echo "    ServerName $fqdn" >> /home/$fqdn/conf/apache.conf
 		echo "    DocumentRoot /home/$fqdn/www" >> /home/$fqdn/conf/apache.conf
 		echo "    <Directory /home/$fqdn/www>" >> /home/$fqdn/conf/apache.conf
