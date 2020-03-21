@@ -48,7 +48,7 @@ mysqlroot=`date +%s | sha256sum | base64 | head -c 25`
 webhostingfepassword=`date +%s | sha256sum | base64 | head -c 25`
 
 # Recuperation de l'adresse IPv4
-ipv4=`hostname --all-ip-addresses`
+ipv4=`hostname --all-ip-addresses | sed -e "s/\ //g"`
 
 # Configuration de l'heure
 service ntp stop
@@ -124,19 +124,20 @@ apt-get -y install php7.4-fpm
 apt-get -y install php7.4-cli php7.4-common php7.4-curl php7.4-mbstring php7.4-mysql php7.4-xml php7.4-dev
 
 # Activation de php7.3
-a2dismod php5.6 php7.3 php7.1 php7.2 php7.4
-a2enmod php7.0
+a2dismod php5.6 php7.0 php7.1 php7.2 php7.3
+a2enmod php7.4
 service apache2 restart
-update-alternatives --set php /usr/bin/php7.0
-update-alternatives --set phar /usr/bin/phar7.0
-update-alternatives --set phar.phar /usr/bin/phar.phar7.0
-update-alternatives --set phpize /usr/bin/phpize7.0
-update-alternatives --set php-config /usr/bin/php-config7.0
+update-alternatives --set php /usr/bin/php7.4
+update-alternatives --set phar /usr/bin/phar7.4
+update-alternatives --set phar.phar /usr/bin/phar.phar7.4
+update-alternatives --set phpize /usr/bin/phpize7.4
+update-alternatives --set php-config /usr/bin/php-config7.4
 
 # Installation des extensions de php requis par prestashop, joomla, drupal et wordpress
 apt-get -y install php5.6-gd php7.0-gd php7.1-gd php7.2-gd php7.3-gd php7.4-gd
 apt-get -y install php5.6-zip php7.0-zip php7.1-zip php7.2-zip php7.3-zip php7.4-zip
 apt-get -y install php5.6-intl php7.0-intl php7.1-intl php7.2-intl php7.3-intl php7.4-intl
+apt-get -y install php5.6-yaml php7.0-yaml php7.1-yaml php7.2-yaml php7.3-yaml php7.4-yaml
 
 # Installation de MariaDB
 apt-get -y install mariadb-server
