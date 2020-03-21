@@ -20,7 +20,7 @@ fqdn=$1
 passwd=$2
 loglevel=$3
 phpvers=$4
-ipv4=`hostname --all-ip-addresses`
+ipv4=`hostname --all-ip-addresses | sed -e "s/\ //g"`
 
 # Protection des arguments
 if [ "$#" -ne 4 ];then
