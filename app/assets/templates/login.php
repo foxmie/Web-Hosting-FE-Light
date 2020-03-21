@@ -103,7 +103,7 @@
 					<nav>
 						<ul class="footer-menu"></ul>
 						<p class="copyright text-center">
-							© <?= date('Y') ?> <a href="">Alexis Gomy</a>
+							© <?= date('Y') ?> <a href="http://foxmie.fr">FoxMie</a>
 						</p>
 					</nav>
 				</div>

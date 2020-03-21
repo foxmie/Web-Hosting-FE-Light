@@ -48,7 +48,7 @@ mysqlroot=`date +%s | sha256sum | base64 | head -c 25`
 webhostingfepassword=`date +%s | sha256sum | base64 | head -c 25`
 
 # Recuperation de l'adresse IPv4
-ipv4=`ip -4 addr list eth0 | awk '{ print $2 }' | sed -n 2p | cut -d'/' -f1`
+ipv4=`hostname --all-ip-addresses`
 
 # Configuration de l'heure
 service ntp stop

@@ -20,7 +20,7 @@ fqdn=$1
 passwd=$2
 loglevel=$3
 phpvers=$4
-ipv4=`ip -4 addr list eth0 | awk '{ print $2 }' | sed -n 2p | cut -d'/' -f1`
+ipv4=`hostname --all-ip-addresses`
 
 # Protection des arguments
 if [ "$#" -ne 4 ];then
