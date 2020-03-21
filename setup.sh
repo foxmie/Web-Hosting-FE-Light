@@ -123,7 +123,7 @@ apt-get -y install php7.4
 apt-get -y install php7.4-fpm
 apt-get -y install php7.4-cli php7.4-common php7.4-curl php7.4-mbstring php7.4-mysql php7.4-xml php7.4-dev
 
-# Activation de php7.3
+# Activation de php7.4
 a2dismod php5.6 php7.0 php7.1 php7.2 php7.3
 a2enmod php7.4
 service apache2 restart
