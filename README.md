@@ -8,7 +8,7 @@ Panel de gestion WEB (Light)
 ###  Clonage du repositories 
 ``apt-get update && apt-get -y install git``
 
- ``git clone https://github.com/alexis77370/Web-Hosting-FE-Light.git``
+ ``git clone https://github.com/foxmie/Web-Hosting-FE-Light.git``
  
 ###  Installation du panel
  ``cd Web-Hosting-FE-Light``
